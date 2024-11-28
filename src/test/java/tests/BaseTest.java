@@ -19,6 +19,7 @@ import pages.ProductsPage;
 
 import java.time.Duration;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     WebDriver driver;
