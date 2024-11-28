@@ -3,6 +3,7 @@
 <suite thread-count="3" name="Sauce Demo SmokeTest" parallel="tests">
     <listeners>
         <listener class-name="tests.AnnotationTransformer"/>
+        <listener class-name="tests.TestListener"/>
     </listeners>
     <test name="Thread#1">
         <parameter name="browser" value="chrome"></parameter>
