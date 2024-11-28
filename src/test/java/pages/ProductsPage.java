@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class ProductsPage extends BasePage {
     }
 
     public String getTitle() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(TITLE));
         return driver.findElement(TITLE).getText();
     }
 

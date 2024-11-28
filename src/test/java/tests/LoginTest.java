@@ -2,6 +2,7 @@ package tests;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -17,7 +18,8 @@ public class LoginTest extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(LoginTest.class);
 
-    @Test
+
+    @Test(testName = "Проверка позитивного логина", description = "Проверка позитивного логина")
     public void checkLogin() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -27,7 +29,7 @@ public class LoginTest extends BaseTest {
                 "Переход на страницу не выполнен");
     }
 
-    @Test
+    @Test(testName = "Проверка пустого логина", description = "Проверка пустого логина")
     public void checkLoginWithEmptyUserName() {
         loginPage.open();
         loginPage.login("", "secret_sauce");
@@ -37,7 +39,7 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке не верное");
     }
 
-    @Test
+    @Test(testName = "Проверка пустого пароля", description = "Проверка пустого пароля")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
         loginPage.login("standard_user", "");
@@ -47,7 +49,7 @@ public class LoginTest extends BaseTest {
                 "Сообщение об ошибке не верное");
     }
 
-    @Test
+    @Test(testName = "Проверка неверного пароля", description = "Проверка неверного пароля")
     public void checkIncorrectPasswordLogin(){
         loginPage.open();
         loginPage.login("user-name", "secret_sauce");
@@ -66,5 +68,24 @@ public class LoginTest extends BaseTest {
         clipboard.setContents(stringSelection, null);
 
         System.out.println(Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor));
+    }
+
+    @DataProvider(name = "LoginData")
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"user-name", "", "Epic sadface: Password is required"},
+                {"standard_user", "122334112", "Epic sadface: Username and password do not match any user in this service"}
+        };
+    }
+
+    @Test(dataProvider = "LoginData")
+    public void test(String user, String password, String expectedError) {
+        loginPage.open();
+        loginPage.login(user, password);
+        assertEquals(
+                loginPage.getErrorMessage(),
+                expectedError,
+                "переход на страницу не выполнен");
     }
 }
