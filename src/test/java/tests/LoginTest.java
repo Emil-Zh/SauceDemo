@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -14,12 +15,16 @@ import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
 
+@Epic("Авторизация пользователей")
 public class LoginTest extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(LoginTest.class);
 
-
     @Test(testName = "Проверка позитивного логина", description = "Проверка позитивного логина")
+    @Feature("Логин")
+    @Story("Позитивный сценарий логина с корректными данными")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет успешный вход в систему с правильным логином и паролем.")
     public void checkLogin() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
@@ -30,6 +35,10 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка пустого логина", description = "Проверка пустого логина")
+    @Feature("Логин")
+    @Story("Проверка ошибки при пустом логине")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет ошибку, если имя пользователя пустое.")
     public void checkLoginWithEmptyUserName() {
         loginPage.open();
         loginPage.login("", "secret_sauce");
@@ -40,9 +49,13 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка пустого пароля", description = "Проверка пустого пароля")
+    @Feature("Логин")
+    @Story("Проверка ошибки при пустом пароле")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет ошибку, если пароль пустой.")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
-        loginPage.login("standard_user", "");
+        loginPage.login("standard_user", "123");
         assertEquals(
                 loginPage.getErrorMessage(),
                 "Epic sadface: Password is required",
@@ -50,16 +63,24 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(testName = "Проверка неверного пароля", description = "Проверка неверного пароля")
-    public void checkIncorrectPasswordLogin(){
+    @Feature("Логин")
+    @Story("Проверка ошибки при неверном пароле")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест проверяет ошибку при неверном пароле для существующего пользователя.")
+    public void checkIncorrectPasswordLogin() {
         loginPage.open();
         loginPage.login("user-name", "secret_sauce");
         assertEquals(
                 loginPage.getErrorMessage(),
                 "Epic sadface: Username and password do not match any user in this service",
-                "переход на страницу не выполнен");
+                "Ошибка при логине с неправильными данными не отображается");
     }
 
     @Test
+    @Feature("Буфер обмена")
+    @Story("Тестирование копирования текста в буфер обмена")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Description("Тест копирует строку в буфер обмена и выводит содержимое.")
     public void copy() throws IOException, UnsupportedFlavorException {
         String copyBuffer = "TeachMeSkills";
 
@@ -80,12 +101,16 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(dataProvider = "LoginData")
+    @Feature("Логин")
+    @Story("Проверка различных сценариев логина с ошибками")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Тест проверяет ошибки при логине с некорректными данными: пустой логин, пустой пароль и неверные данные.")
     public void test(String user, String password, String expectedError) {
         loginPage.open();
         loginPage.login(user, password);
         assertEquals(
                 loginPage.getErrorMessage(),
                 expectedError,
-                "переход на страницу не выполнен");
+                "Сообщение об ошибке не соответствует ожидаемому");
     }
 }

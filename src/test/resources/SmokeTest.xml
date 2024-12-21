@@ -2,11 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="2" name="Sauce Demo SmokeTest" parallel="classes">
     <test name="Thread#1">
+        <parameter name="browser" value="chrome"></parameter>
         <classes>
             <class name="tests.LoginTest"/>
         </classes>
     </test> <!-- Test -->
     <test name="Thread#2">
+        <parameter name="browser" value="chrome"></parameter>
         <classes>
             <class name="tests.CartTest"/>
             <class name="tests.LocatorTest"/>

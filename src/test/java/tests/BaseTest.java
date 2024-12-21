@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -30,7 +32,7 @@ public class BaseTest {
 
     @Parameters({"browser"})
     @BeforeMethod
-    public void setup(String browser){
+    public void setup(String browser, ITestContext context){
         if(browser.equalsIgnoreCase("chrome")) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("start-maximized");
@@ -38,11 +40,11 @@ public class BaseTest {
         } else if (browser.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
         }
-        else if (browser.equalsIgnoreCase("edge")) {
-            driver = new EdgeDriver();
+        else if (browser.equalsIgnoreCase("safari")) {
+            driver = new SafariDriver();
         }
-
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        context.setAttribute("driver", driver);
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
