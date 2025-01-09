@@ -41,7 +41,7 @@ public class BaseTest {
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("headless");  // Firefox headless
+            options.addArguments("--headless");  // Firefox headless
             driver = new FirefoxDriver(options);
         } else {
             throw new IllegalArgumentException("Unsupported browser: " + browser);  // Handle invalid browser
