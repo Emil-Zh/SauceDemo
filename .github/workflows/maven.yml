@@ -36,4 +36,4 @@ jobs:
         browser: firefox
         version: latest
     - name: Run tests
-      run: mvn clean test -Duser=$USERNAME -Dpassword=$PASSWORD
+      run: mvn clean test -Duser=${{ secrets.SD_USER }} -Dpassword=${{ secrets.SD_PASSWORD }}
