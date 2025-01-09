@@ -27,5 +27,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - uses: abhi1693/setup-browser@v0.3.4
+      with:
+        browser: firefox
+        version: latest
     - name: Run tests
       run: mvn clean test
