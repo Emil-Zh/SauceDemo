@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.internal.shadowed.jackson.databind.annotation.JsonAppend;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,6 +18,7 @@ import pages.CartPage;
 import pages.CheckOutPage;
 import pages.LoginPage;
 import pages.ProductsPage;
+import utils.PropertyReader;
 
 import java.time.Duration;
 
@@ -31,8 +33,8 @@ public class BaseTest {
     CartPage cartPage;
     CheckOutPage checkOutPage;
 
-    String user = System.getProperty("user");
-    String password = System.getProperty("password");
+    String user = System.getProperty("user", PropertyReader.getProperty("user"));
+    String password = System.getProperty("password", PropertyReader.getProperty("password"));
 
     @Parameters({"browser"})
     @BeforeMethod
