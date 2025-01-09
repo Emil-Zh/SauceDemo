@@ -34,19 +34,30 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod
     public void setup(String browser, ITestContext context){
-        if(browser.equalsIgnoreCase("chrome")) {
+        if (browser.equalsIgnoreCase("chrome")) {
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("headless");
-            options.addArguments("start-maximized");
+            options.addArguments("headless");  // Run headless in CI environments
+            options.addArguments("start-maximized");  // Optional, maximize browser window
             driver = new ChromeDriver(options);
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("headless");  // Firefox headless
+            driver = new FirefoxDriver(options);
+        } else {
+            throw new IllegalArgumentException("Unsupported browser: " + browser);  // Handle invalid browser
         }
-//        } else if (browser.equalsIgnoreCase("firefox")) {
-//            FirefoxOptions options =  new FirefoxOptions();
-//            options.addArguments("headless");
-//            driver = new FirefoxDriver(options);
-//        }
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+
+        // Ensure driver is initialized properly
+        if (driver == null) {
+            throw new IllegalStateException("WebDriver initialization failed");
+        }
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));  // Set implicit wait
+
+        // Add the driver to the context so it can be used across tests
         context.setAttribute("driver", driver);
+
+        // Initialize page objects
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
