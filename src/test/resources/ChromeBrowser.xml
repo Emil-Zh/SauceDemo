@@ -17,10 +17,4 @@
             <class name="tests.LocatorTest"/>
         </classes>
     </test> <!-- Test -->
-    <test name="Thread#3">
-        <parameter name="browser" value="safari"></parameter>
-        <classes>
-            <class name="tests.MainPageTest"/>
-        </classes>
-    </test> <!-- Test -->
 </suite>
