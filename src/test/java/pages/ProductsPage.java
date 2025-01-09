@@ -14,7 +14,7 @@ public class ProductsPage extends BasePage {
 
     private List<Product> addedProducts = new ArrayList<>();
 
-    private final By TITLE = By.cssSelector(".title");
+    public final By TITLE = By.cssSelector(".title");
     private final By CART_LINK = By.cssSelector(".shopping_cart_link");
     private final By CART_SHOPPING_BADGE = By.cssSelector(".shopping_cart_badge");
     private final By PRODUCTS_NAME = By.cssSelector(".inventory_item_name");

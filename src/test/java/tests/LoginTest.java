@@ -1,6 +1,8 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
@@ -28,6 +30,7 @@ public class LoginTest extends BaseTest {
     public void checkLogin() {
         loginPage.open();
         loginPage.login(user, password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(productsPage.TITLE));
         assertEquals(
                 productsPage.getTitle(),
                 "Products",

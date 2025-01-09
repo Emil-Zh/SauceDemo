@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -32,6 +33,7 @@ public class BaseTest {
     ProductsPage productsPage;
     CartPage cartPage;
     CheckOutPage checkOutPage;
+    WebDriverWait wait;
 
     String user = System.getProperty("user", PropertyReader.getProperty("user"));
     String password = System.getProperty("password", PropertyReader.getProperty("password"));
@@ -44,6 +46,7 @@ public class BaseTest {
             options.addArguments("headless");  // Run headless in CI environments
             options.addArguments("start-maximized");  // Optional, maximize browser window
             driver = new ChromeDriver(options);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         } else if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
             options.addArguments("--headless");  // Firefox headless
