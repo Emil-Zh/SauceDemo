@@ -55,7 +55,7 @@ public class LoginTest extends BaseTest {
     @Description("Тест проверяет ошибку, если пароль пустой.")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
-        loginPage.login("standard_user", "123");
+        loginPage.login("standard_user", "secret_sauce");
         assertEquals(
                 loginPage.getErrorMessage(),
                 "Epic sadface: Password is required",
