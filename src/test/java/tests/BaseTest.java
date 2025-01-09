@@ -1,15 +1,14 @@
 package tests;
 
-import com.beust.jcommander.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.ITestContext;
-import org.testng.ITestListener;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -20,6 +19,8 @@ import pages.LoginPage;
 import pages.ProductsPage;
 
 import java.time.Duration;
+
+import static utils.AllureUtils.takeScreenshot;
 
 @Listeners(TestListener.class)
 public class BaseTest {
@@ -35,13 +36,13 @@ public class BaseTest {
     public void setup(String browser, ITestContext context){
         if(browser.equalsIgnoreCase("chrome")) {
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("headless");
             options.addArguments("start-maximized");
             driver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")) {
+            FirefoxOptions options =  new FirefoxOptions();
+            options.addArguments("headless");
             driver = new FirefoxDriver();
-        }
-        else if (browser.equalsIgnoreCase("safari")) {
-            driver = new SafariDriver();
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         context.setAttribute("driver", driver);
@@ -52,7 +53,12 @@ public class BaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown(){
-        driver.quit();
+    public void tearDown(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            takeScreenshot(driver);
+        }
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
