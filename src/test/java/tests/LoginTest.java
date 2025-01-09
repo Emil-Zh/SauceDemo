@@ -55,7 +55,7 @@ public class LoginTest extends BaseTest {
     @Description("Тест проверяет ошибку, если пароль пустой.")
     public void checkLoginWithEmptyPassword() {
         loginPage.open();
-        loginPage.login("standard_user", "");
+        loginPage.login(user, "");
         assertEquals(
                 loginPage.getErrorMessage(),
                 "Epic sadface: Password is required",
@@ -69,7 +69,7 @@ public class LoginTest extends BaseTest {
     @Description("Тест проверяет ошибку при неверном пароле для существующего пользователя.")
     public void checkIncorrectPasswordLogin() {
         loginPage.open();
-        loginPage.login("user-name", "secret_sauce");
+        loginPage.login("user-name", password);
         assertEquals(
                 loginPage.getErrorMessage(),
                 "Epic sadface: Username and password do not match any user in this service",
